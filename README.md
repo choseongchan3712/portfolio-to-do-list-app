@@ -10,3 +10,7 @@
 [x] npm i --save @fortawesome/free-regular-svg-icons
 [x] npm i --save @fortawesome/free-brands-svg-icons
 [x] npm i --save @fortawesome/react-fontawesome@latest
+[x] npm install @mui/x-date-pickers
+[x] npm install dayjs
+[x] npm install @mui/x-date-pickers-pro
+[x] npm i react-hook-form

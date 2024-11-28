@@ -21,9 +21,9 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     padding: 30px 20px;
     .plus {
+      cursor: pointer;
       color: #fff;
       font-size: 25px;
     }
@@ -66,7 +66,7 @@ const PlusButton = (): JSX.Element => {
                 setIsOpen(false);
               }}
             />
-            <InputWrap />
+            <InputWrap setIsOpen={setIsOpen}/>
           </>
         ) : (
           <FontAwesomeIcon icon={faPlus} className="plus" />
