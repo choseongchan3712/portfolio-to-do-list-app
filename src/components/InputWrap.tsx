@@ -7,8 +7,9 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DateTimeRangePicker } from "@mui/x-date-pickers-pro/DateTimeRangePicker";
 import { TimePicker } from "@mui/x-date-pickers";
 import { useForm } from "react-hook-form";
-import { isOpenType, OnSubmitType } from "../type";
+import { inputWrapPropsType, OnSubmitType } from "../type";
 import { Dayjs } from "dayjs";
+import { day, month, year } from "./date";
 
 const Container = styled.div`
   width: 100%;
@@ -164,7 +165,7 @@ const SubmitButton = styled(Button)(() => ({
   },
 }));
 
-const InputWrap = ({setIsOpen}:isOpenType): JSX.Element => {
+const InputWrap = ({ setIsOpen, todos, setTodos }: inputWrapPropsType): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>();
   // console.log(inputRef.current?.value);
   const [isOne, setIsOne] = useState<boolean>(true);
@@ -196,13 +197,24 @@ const InputWrap = ({setIsOpen}:isOpenType): JSX.Element => {
     reset,
   } = useForm<OnSubmitType>({
     defaultValues: {
-      startTime:'',
-      endTime:'',
+      startTime: "",
+      endTime: "",
     },
   }); //!
 
   const onSubmit = (data: OnSubmitType) => {
-    console.log(data.detail);
+    setTodos([
+      ...todos,
+      {
+        id: `${new Date()}${data.detail}`,
+        title: `${data.detail}`,
+        upodateTime:`등록시간: ${year}년 ${month}월 ${day}일`,
+        isFinish: false,
+        startTime: isOne ? `${data.startTime}` : undefined,
+        endTime: isOne ? `${data.endTime}` : undefined,
+        everyDayTime: isEvery ? `${data.everyDayTime}` : undefined,
+      }
+    ]);
     setIsOpen(false);
     reset();
   };
@@ -223,7 +235,15 @@ const InputWrap = ({setIsOpen}:isOpenType): JSX.Element => {
           margin="normal"
           {...register("detail", { required: "내용은 필수입니다." })}
         />
-        {errors.detail && <Alert variant="outlined" severity="error" style={{color:"red", marginBottom:"10px"}}>{errors.detail.message}</Alert>}
+        {errors.detail && (
+          <Alert
+            variant="outlined"
+            severity="error"
+            style={{ color: "red", marginBottom: "10px" }}
+          >
+            {errors.detail.message}
+          </Alert>
+        )}
         <ButtonGroup
           variant="contained"
           aria-label="Basic button group"
@@ -254,20 +274,59 @@ const InputWrap = ({setIsOpen}:isOpenType): JSX.Element => {
                 setValue("endTime", newValue[1]?.format("YYYY-MM-DD HH:mm"));
               }}
             />
-            <input {...register("startTime", {required: isOne ? "시작시간을 입력하세요" : false})} type="hidden"/>
-            <input {...register("endTime", {required: isOne ? "종료시간을 입력하세요" : false})} type="hidden"/>
+            <input
+              {...register("startTime", {
+                required: isOne ? "시작시간을 입력하세요" : false,
+              })}
+              type="hidden"
+            />
+            <input
+              {...register("endTime", {
+                required: isOne ? "종료시간을 입력하세요" : false,
+              })}
+              type="hidden"
+            />
           </DemoContainer>
-          {errors.startTime && <Alert variant="outlined" severity="error" style={{color:"red", marginBottom:"10px"}}>{errors.startTime.message}</Alert>}
-          {errors.endTime && <Alert variant="outlined" severity="error" style={{color:"red", marginBottom:"10px"}}>{errors.endTime.message}</Alert>}
+          {errors.startTime && (
+            <Alert
+              variant="outlined"
+              severity="error"
+              style={{ color: "red", marginBottom: "10px" }}
+            >
+              {errors.startTime.message}
+            </Alert>
+          )}
+          {errors.endTime && (
+            <Alert
+              variant="outlined"
+              severity="error"
+              style={{ color: "red", marginBottom: "10px" }}
+            >
+              {errors.endTime.message}
+            </Alert>
+          )}
           <DemoContainer components={["TimePicker"]}>
             <StyledTimePicker
               label="시간을 입력하세요"
               disabled={isEvery ? false : true}
               onChange={everyDayHandler}
             />
-            <input {...register("everyDayTime", {required: isEvery ? "시간을 입력하세요" : false})} type="hidden"/>
+            <input
+              {...register("everyDayTime", {
+                required: isEvery ? "시간을 입력하세요" : false,
+              })}
+              type="hidden"
+            />
           </DemoContainer>
-          {errors.everyDayTime && <Alert variant="outlined" severity="error" style={{color:"red", marginBottom:"10px"}}>{errors.everyDayTime.message}</Alert>}
+          {errors.everyDayTime && (
+            <Alert
+              variant="outlined"
+              severity="error"
+              style={{ color: "red", marginBottom: "10px" }}
+            >
+              {errors.everyDayTime.message}
+            </Alert>
+          )}
         </LocalizationProvider>
         <SubmitButton variant="contained" type="submit">
           추가하기

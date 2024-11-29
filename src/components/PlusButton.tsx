@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import InputWrap from "./InputWrap";
+import { todosPropsType} from "../type";
 
 const Container = styled.div`
   position: relative;
@@ -12,11 +13,12 @@ const Container = styled.div`
   left: 0;
   display: flex;
   justify-content: center;
+  width: 50%;
   .plus_button {
     position: relative;
     z-index: 1;
     background-color: #212121;
-    width: 50%;
+    width: 100%;
     height: 50px;
     display: flex;
     justify-content: center;
@@ -43,7 +45,7 @@ const Container = styled.div`
   }
 `;
 
-const PlusButton = (): JSX.Element => {
+const PlusButton = ({todos, setTodos}: todosPropsType): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -66,7 +68,7 @@ const PlusButton = (): JSX.Element => {
                 setIsOpen(false);
               }}
             />
-            <InputWrap setIsOpen={setIsOpen}/>
+            <InputWrap setIsOpen={setIsOpen} todos={todos} setTodos={setTodos}/>
           </>
         ) : (
           <FontAwesomeIcon icon={faPlus} className="plus" />
