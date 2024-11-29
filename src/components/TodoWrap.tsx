@@ -1,35 +1,34 @@
-
 import styled from "styled-components";
 import { Reorder } from "framer-motion";
 import TodoBox from "./TodoBox";
-import { todosPropsType, todosType } from "../type";
-
+import { todosPropsType } from "../type";
 
 const Container = styled.div`
   position: relative;
   z-index: 1;
   padding-top: 20px;
   width: 50%;
+  .move_box {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+  }
 `;
 
-
-const TodoWrap = ({todos, setTodos}: todosPropsType): JSX.Element => {
-
-  const handleReorder = (newOrder: string[]) => {
-    // 새로운 순서대로 todos 배열을 재정렬
-    const reorderedTodos: todosType[] = newOrder.map((id) => 
-      todos.find(todo => todo.id === id) as todosType
-    );
-    setTodos(reorderedTodos);  // 새로운 배열로 todos 업데이트
-  };
-
+const TodoWrap = ({ todos, setTodos }: todosPropsType): JSX.Element => {
   return (
     <Container>
-      <Reorder.Group axis="y" onReorder={handleReorder} values={todos.map((todo)=>todo.id)}>
-      {todos.map((todo) => (
-        <TodoBox key={todo.id} todo={todo} />
-      ))}
-    </Reorder.Group>
+      <Reorder.Group
+        axis="y"
+        onReorder={setTodos}
+        values={todos}
+      >
+        {todos.map((todo) => (
+          <Reorder.Item key={todo.id} value={todo} className="move_box">
+            <TodoBox todo={todo} setTodos={setTodos} todos={todos}/>
+          </Reorder.Item>
+        ))}
+      </Reorder.Group>
     </Container>
   );
 };

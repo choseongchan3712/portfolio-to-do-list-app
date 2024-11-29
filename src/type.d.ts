@@ -14,13 +14,9 @@ export interface inputWrapPropsType {
 };
 
 export interface TodoBoxPropsType {
-  item: todosType;
-  id: string;
-  title: string;
-  upodateTime: string; 
-  startTime?:string;
-  endTime?: string;
-  everyDayTime?: string;
+  todo: todosType;
+  todos: todosType[];
+  setTodos: React.Dispatch<React.SetStateAction<todosType[]>>;
 };
 
 export interface todosType {
